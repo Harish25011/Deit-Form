@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Comprehensive Diet & Lifestyle Analyzer</title>
+<style>
+  body { font-family: Arial, sans-serif; background: linear-gradient(to right, #f1f8e9, #c8e6c9); padding: 20px; }
+  h1 { text-align: center; color: #2e7d32; }
+  form { max-width: 1100px; margin: auto; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 0 15px #666; }
+  fieldset { margin-bottom: 20px; border: 2px solid #388e3c; border-radius: 10px; padding: 15px; }
+  legend { font-weight: bold; color: #1565c0; font-size: 18px; }
+  label { display: block; margin: 8px 0 4px; font-weight: 600; }
+  input, select, textarea { width: 98%; padding: 8px; border-radius: 6px; border: 1px solid #aaa; margin-bottom: 10px; }
+  textarea { resize: vertical; }
+  .inline { display: inline-block; width: 48%; }
+  .slider { width: 100%; }
+  .output-box { font-weight: bold; padding: 6px; border-radius: 6px; margin: 5px 0; }
+  .bmi-output { background: #e1f5fe; color: #0277bd; }
+  .bmr-output { background: #fff3e0; color: #ef6c00; }
+  .calories-output { background: #ffebee; color: #c62828; }
+  button { background: #1565c0; color: white; padding: 12px 20px; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; margin: 5px; }
+  button:hover { background: #0d47a1; }
+</style>
+</head>
+<body>
+
+<h1>Diet & Lifestyle Analyzer</h1>
+<form id="dietForm">
+
+  <!-- Personal Info -->
+  <fieldset>
+    <legend>Personal Information</legend>
+    <label>Name:</label><input type="text" name="name" required>
+    <div class="inline">
+      <label>Age:</label><input type="number" name="age" min="1" required>
+    </div>
+    <div class="inline">
+      <label>Gender:</label>
+      <select name="gender" required>
+        <option value="">--Select--</option>
+        <option>Male</option><option>Female</option><option>Other</option>
+      </select>
+    </div>
+    <div class="inline">
+      <label>Weight (kg):</label><input type="number" id="weight" step="0.1" required>
+    </div>
+    <div class="inline">
+      <label>Height (cm):</label><input type="number" id="height" step="0.1" required>
+    </div>
+    <div class="inline">
+      <label>Waist (cm):</label><input type="number" id="waist" step="0.1">
+    </div>
+    <div class="inline">
+      <label>Hip (cm):</label><input type="number" id="hip" step="0.1">
+    </div>
+    <div class="output-box bmi-output" id="bmiOutput">BMI: --</div>
+    <div class="output-box bmr-output" id="bmrOutput">Daily Calorie Requirement: -- kcal</div>
+  </fieldset>
+
+  <!-- Lifestyle -->
+  <fieldset>
+    <legend>Lifestyle</legend>
+    <label>Occupation Type:</label>
+    <select>
+      <option>Desk Job</option><option>Field Job</option><option>Student</option><option>Athlete</option>
+    </select>
+    <label>Activity Level:</label>
+    <select id="activity">
+      <option value="1.2">Sedentary</option>
+      <option value="1.375">Lightly Active</option>
+      <option value="1.55">Moderately Active</option>
+      <option value="1.725">Very Active</option>
+      <option value="1.9">Extra Active</option>
+    </select>
+    <label>Sleep Hours:</label><input type="number" min="1" max="24" value="7">
+    <label>Stress Level (1-10):</label><input type="range" min="1" max="10" value="5" class="slider">
+    <label>Water Intake (glasses/day):</label><input type="number" min="1" max="20">
+    <label>Smoking Frequency:</label><select><option>Never</option><option>Occasionally</option><option>Daily</option></select>
+    <label>Alcohol Consumption:</label><select><option>Never</option><option>Occasional</option><option>Frequent</option></select>
+  </fieldset>
+
+  <!-- Diet Preferences -->
+  <fieldset>
+    <legend>Dietary Preferences & Allergies</legend>
+    <label>Diet Type:</label>
+    <select>
+      <option>Vegetarian</option><option>Vegan</option><option>Keto</option>
+      <option>Paleo</option><option>Balanced</option><option>Other</option>
+    </select>
+    <label>Food Allergies:</label>
+    <input type="checkbox"> Nuts 🥜
+    <input type="checkbox"> Gluten 🌾
+    <input type="checkbox"> Dairy 🥛
+    <input type="checkbox"> Soy 🌱
+    <input type="checkbox"> Eggs 🥚
+    <input type="checkbox"> Seafood 🐟
+    <input type="text" placeholder="Other allergy...">
+    <label>Favorite Cuisine:</label>
+    <select><option>Indian</option><option>Italian</option><option>Chinese</option><option>Mediterranean</option></select>
+    <label>Foods You Avoid:</label>
+    <input type="text" placeholder="E.g., spicy, fried, sugary...">
+  </fieldset>
+
+  <!-- Goals -->
+  <fieldset>
+    <legend>Health Goals</legend>
+    <label>Goal:</label>
+    <select>
+      <option>Lose Weight</option><option>Gain Muscle</option><option>Maintain</option>
+    </select>
+    <label>Target Weight (kg):</label><input type="number" step="0.1">
+    <label>Timeframe (weeks):</label><input type="number" min="1">
+    <label>Motivation Level:</label><input type="range" min="1" max="10" value="7">
+  </fieldset>
+
+  <!-- Meals -->
+  <fieldset>
+    <legend>Meal Tracking</legend>
+    <label><input type="checkbox" class="food" data-cal="150"> Oats (150 kcal)</label>
+    <label><input type="checkbox" class="food" data-cal="250"> Chicken (250 kcal)</label>
+    <label><input type="checkbox" class="food" data-cal="120"> Chapati (120 kcal)</label>
+    <label><input type="checkbox" class="food" data-cal="90"> Fruits (90 kcal)</label>
+    <label><input type="checkbox" class="food" data-cal="200"> Sandwich (200 kcal)</label>
+    <div class="output-box calories-output" id="calorieOutput">Food Calories: 0 kcal</div>
+  </fieldset>
+
+  <!-- Notes -->
+  <fieldset>
+    <legend>Other Information</legend>
+    <label>Supplements Taken:</label><input type="text" placeholder="E.g., Protein, Creatine, Vitamins">
+    <label>Medical Conditions:</label><textarea rows="3" placeholder="List conditions like Diabetes, BP, Thyroid..."></textarea>
+    <label>Special Notes:</label><textarea rows="3"></textarea>
+  </fieldset>
+
+  <div class="submit-btn">
+    <button type="submit">Submit</button>
+    <button type="reset">Reset</button>
+  </div>
+</form>
+
+<p style="text-align:center; margin-top:30px; font-weight:bold; color:#1565c0;">
+  Done by - Harish S
+</p>
+
+<script>
+const weightEl = document.getElementById('weight');
+const heightEl = document.getElementById('height');
+const waistEl = document.getElementById('waist');
+const hipEl = document.getElementById('hip');
+const activityEl = document.getElementById('activity');
+const bmiOutput = document.getElementById('bmiOutput');
+const bmrOutput = document.getElementById('bmrOutput');
+const foodCheckboxes = document.querySelectorAll('.food');
+const calorieOutput = document.getElementById('calorieOutput');
+
+function updateMetrics(){
+  let w = parseFloat(weightEl.value), h = parseFloat(heightEl.value)/100;
+  if(w>0 && h>0){
+    let bmi = (w/(h*h)).toFixed(1);
+    let cat = bmi<18.5?"Underweight":bmi<25?"Normal":bmi<30?"Overweight":"Obese";
+    bmiOutput.textContent = `BMI: ${bmi} (${cat})`;
+
+    let gender = document.querySelector('[name="gender"]').value;
+    let age = parseInt(document.querySelector('[name="age"]').value)||25;
+    let bmr = gender==="Male"? (10*w + 6.25*heightEl.value - 5*age + 5)
+                              : (10*w + 6.25*heightEl.value - 5*age -161);
+    let factor = parseFloat(activityEl.value)||1.2;
+    let dailyCal = Math.round(bmr*factor);
+    bmrOutput.textContent = `Daily Calorie Requirement: ${dailyCal} kcal`;
+  }
+
+  if(waistEl.value && hipEl.value){
+    let whr = (waistEl.value/hipEl.value).toFixed(2);
+    bmiOutput.textContent += ` | WHR: ${whr}`;
+  }
+}
+
+function updateCalories(){
+  let total=0;
+  foodCheckboxes.forEach(f=>{ if(f.checked) total+=parseInt(f.dataset.cal); });
+  calorieOutput.textContent=`Food Calories: ${total} kcal`;
+}
+
+weightEl.addEventListener('input', updateMetrics);
+heightEl.addEventListener('input', updateMetrics);
+waistEl.addEventListener('input', updateMetrics);
+hipEl.addEventListener('input', updateMetrics);
+activityEl.addEventListener('change', updateMetrics);
+foodCheckboxes.forEach(f=>f.addEventListener('change', updateCalories));
+</script>
+
+</body>
+</html>
